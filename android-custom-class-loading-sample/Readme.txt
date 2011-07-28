@@ -24,11 +24,13 @@
  1) Ensure Ant is properly set up by referring to:
     http://d.android.com/guide/developing/building/building-cmdline.html
     
- 2) The build.xml file included in this project contains a modified "-dex" target,
+ 2) In local.properties, update the "sdk.dir" value to your local Android SDK home directory. 
+    
+ 3) The build.xml file included in this project contains a modified "-dex" target,
     which has the logic to create two dex files - standard and secondary.
     The "-dex" target is automatically invoked when either "release" or "debug"
     target is invoked.
     
- 3) To make a debug build, execute: ant debug
+ 4) To make a debug build, execute: ant debug
     To make a release build, ensure that key.store is properly configured.
     Then execute: ant release

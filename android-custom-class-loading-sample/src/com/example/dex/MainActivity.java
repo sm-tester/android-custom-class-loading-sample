@@ -35,6 +35,10 @@ import dalvik.system.DexClassLoader;
 public class MainActivity extends Activity {
     private static final String SECONDARY_DEX_NAME = "secondary_dex.jar";
     
+    // Buffer size for file copying.  While 8kb is used in this sample, you
+    // may want to tweak it based on actual size of the secondary dex file involved.
+    private static final int BUF_SIZE = 8 * 1024;
+    
     private Button mToastButton = null;
     private ProgressDialog mProgressDialog = null;
     
@@ -95,25 +99,21 @@ public class MainActivity extends Activity {
     private boolean prepareDex(File dexInternalStoragePath) {
         BufferedInputStream bis = null;
         OutputStream dexWriter = null;
-        // Buffer size for file copying.  While 8kb is used in this sample, you
-        // may want to tweak it based on actual size of the secondary dex file involved.
-        final int bufferSize = 8 * 1024;
+
         try {
             bis = new BufferedInputStream(getAssets().open(SECONDARY_DEX_NAME));
             dexWriter = new BufferedOutputStream(new FileOutputStream(dexInternalStoragePath));
-            byte[] buf = new byte[bufferSize];
+            byte[] buf = new byte[BUF_SIZE];
             int len;
-            while((len = bis.read(buf, 0, bufferSize)) > 0) {
+            while((len = bis.read(buf, 0, BUF_SIZE)) > 0) {
                 dexWriter.write(buf, 0, len);
             }
-            dexWriter.flush();
             dexWriter.close();
             bis.close();
             return true;
         } catch (IOException e) {
             if (dexWriter != null) {
                 try {
-                    dexWriter.flush();
                     dexWriter.close();
                 } catch (IOException ioe) {
                     ioe.printStackTrace();

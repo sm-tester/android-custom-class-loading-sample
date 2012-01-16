@@ -172,7 +172,7 @@
         </if>
     </target>
 
-    <!-- version-tag: 1 -->
+    <!-- version-tag: custom -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
 </project>
